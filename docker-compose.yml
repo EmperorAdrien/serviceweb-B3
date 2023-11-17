@@ -11,5 +11,27 @@ services:
     networks:
       - dev
 
+  db:
+    image: mysql
+    volumes:
+      - db-data:/var/lib/mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      MYSQL_DATABASE: 'service-web'
+    networks:
+      - dev
+
+  phpmyadmin:
+    image: phpmyadmin
+    ports:
+      - 8080:80
+    environment:
+      PMA_HOST: db
+    networks:
+      - dev
+
 networks:
   dev:
+
+volumes:
+  db-data:
