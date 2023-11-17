@@ -1,5 +1,4 @@
 from fastapi import FastAPI
-from .params import PostTradParams
 
 from .params import PostReturnTextParams
 from .response import ResponseGetReturnWord, ResponsePostReturnText
@@ -9,14 +8,6 @@ from .repositories.ReturnText import create_return_text
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
-
-@app.post('/trad')
-def postTrad(params: PostTradParams):
-    return {
-        'word': params.word,
-        'dictionnary': params.dictionnary,
-        'trad': "... --- ..."
-    }
 
 @app.get("/")
 def index():
