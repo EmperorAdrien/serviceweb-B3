@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from ..models.ReturnText import ReturnText
 from ..response import ResponsePostReturnText
 
-
+#pas utilisé dans cette version
 def create_return_text(db: Session, params: ResponsePostReturnText, method: str):
     db_return_text = ReturnText(
         text = params['text'],

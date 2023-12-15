@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 
-from .params import PostReturnTextParams
-from .response import ResponseGetReturnWord, ResponsePostReturnText
+from .response import ResponseGetReturnWord, ResponsePostReturnText, PostReturnTextParams
 from .schemas import ResponseCreatedDict, PostCreateDictParams, ResponseGetAllDict, ResponseGetDict, ResponseGetTranslatedWord, PostTranslateWordParams
 from .conf.database import Base, SessionLocal, engine
 from .repositories.ReturnText import create_return_text
@@ -31,6 +30,7 @@ def return_word(word: str):
         "return_word": "".join(reversed(word))
     }
 
+#pas utilisé dans cette versions
 @app.post("/return-text", response_model=ResponsePostReturnText)
 def post_return_text(params: PostReturnTextParams):
     
@@ -42,7 +42,9 @@ def post_return_text(params: PostReturnTextParams):
         "return_text": "".join(reversed(params.text))
     }
 
+# Create a dictionary with a name and a list of dict_unit (key, value)
 @app.post("/create-dict", response_model=ResponseCreatedDict)
+
 def post_create_dict(params: PostCreateDictParams):
         print("Debug@post_return_text")
         
@@ -60,6 +62,8 @@ def post_create_dict(params: PostCreateDictParams):
                 "updated_at": dict.updated_at
         }
 
+
+# Get a dictionary by id
 @app.get("/dict/{id}", response_model=ResponseGetDict)
 def getDictID(id: int):
     dict = get_dict_by_id(SessionLocal(), id)
@@ -70,7 +74,7 @@ def getDictID(id: int):
         "updated_at": dict.updated_at
     }
 
-
+# Get all dictionaries
 @app.get("/dict/all",response_model= ResponseGetAllDict)
 def get_all_dict():
         dicts = all_dict(SessionLocal())
@@ -78,6 +82,8 @@ def get_all_dict():
                 "dicts": dicts
         }
 
+
+# Get a translated word by id and word
 @app.post("/translate", response_model=ResponseGetTranslatedWord)
 def PostTranslateWord(params: PostTranslateWordParams):
     dict = get_dict_by_id(SessionLocal(), params.id)
